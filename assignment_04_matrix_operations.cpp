@@ -65,3 +65,140 @@
 #include <string>
 using namespace std;
 
+void readMatrix(int mat[10][10], int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            cout << "Enter element [" << i << "][" << j << "]: ";
+            cin >> mat[i][j];
+        }
+    }
+}
+
+void displayMatrix(int mat[10][10], int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            cout << setw(5) << mat[i][j];
+        }
+        cout << endl;
+    }
+}
+
+void transposeMatrix(int mat[10][10], int rows, int cols, int result[10][10]) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result[j][i] = mat[i][j];
+        }
+    }
+}
+
+void addMatrices(int matA[10][10], int matB[10][10], int rows, int cols, int result[10][10]) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result[i][j] = matA[i][j] + matB[i][j];
+        }
+    }
+}
+
+void multiplyMatrices(int matA[10][10], int matB[10][10], int m, int n, int p, int result[10][10]) {
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < p; j++) {
+            result[i][j] = 0;
+            for (int k = 0; k < n; k++) {
+                result[i][j] += matA[i][k] * matB[k][j];
+            }
+        }
+    }
+}
+
+int main() {
+    int choice;
+    cout << "Matrix Operations Menu:" << endl;
+    cout << "1. Transpose a Matrix" << endl;
+    cout << "2. Add Two Matrices" << endl;
+    cout << "3. Multiply Two Matrices" << endl;
+    cout << "Enter your choice: ";
+    cin >> choice;
+
+    if (choice == 1) {
+        int rows, cols;
+        int mat[10][10], result[10][10];
+
+        cout << "Enter number of rows: ";
+        cin >> rows;
+        cout << "Enter number of columns: ";
+        cin >> cols;
+
+        cout << "\nEnter elements of the matrix:" << endl;
+        readMatrix(mat, rows, cols);
+
+        transposeMatrix(mat, rows, cols, result);
+
+        cout << "\nOriginal Matrix:" << endl;
+        displayMatrix(mat, rows, cols);
+
+        cout << "\nTransposed Matrix:" << endl;
+        displayMatrix(result, cols, rows);
+
+    } else if (choice == 2) {
+        int rows, cols;
+        int matA[10][10], matB[10][10], result[10][10];
+
+        cout << "Enter number of rows: ";
+        cin >> rows;
+        cout << "Enter number of columns: ";
+        cin >> cols;
+
+        cout << "\nEnter elements of Matrix A:" << endl;
+        readMatrix(matA, rows, cols);
+        cout << "\nEnter elements of Matrix B:" << endl;
+        readMatrix(matB, rows, cols);
+
+        addMatrices(matA, matB, rows, cols, result);
+
+        cout << "\nMatrix A:" << endl;
+        displayMatrix(matA, rows, cols);
+        cout << "\nMatrix B:" << endl;
+        displayMatrix(matB, rows, cols);
+        cout << "\nSum Matrix:" << endl;
+        displayMatrix(result, rows, cols);
+
+    } else if (choice == 3) {
+        int m, n, n2, p;
+        int matA[10][10], matB[10][10], result[10][10];
+
+        cout << "Enter rows of Matrix A: ";
+        cin >> m;
+        cout << "Enter columns of Matrix A: ";
+        cin >> n;
+
+        cout << "\nEnter elements of Matrix A:" << endl;
+        readMatrix(matA, m, n);
+
+        cout << "\nEnter rows of Matrix B (must equal columns of A = " << n << "): ";
+        cin >> n2;
+        cout << "Enter columns of Matrix B: ";
+        cin >> p;
+
+        if (n2 != n) {
+            cout << "Error: Columns of A must equal rows of B for multiplication." << endl;
+            return 0;
+        }
+
+        cout << "\nEnter elements of Matrix B:" << endl;
+        readMatrix(matB, n2, p);
+
+        multiplyMatrices(matA, matB, m, n, p, result);
+
+        cout << "\nMatrix A:" << endl;
+        displayMatrix(matA, m, n);
+        cout << "\nMatrix B:" << endl;
+        displayMatrix(matB, n2, p);
+        cout << "\nProduct Matrix (A x B):" << endl;
+        displayMatrix(result, m, p);
+
+    } else {
+        cout << "Invalid choice." << endl;
+    }
+
+    return 0;
+}
